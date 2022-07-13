@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+
+  app:
+    container_name: blood_app_master
+    build: .
+    command: ./manage.py runserver 0.0.0.0:9001
+    volumes:
+      - .:/app
+    ports:
+      - 9001:9001
+    restart: always
+    environment:
+      - DB_NAME=production
