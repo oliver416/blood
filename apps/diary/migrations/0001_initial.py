@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('day', models.DateField(default=django.utils.timezone.now, verbose_name='Measurement day')),
                 ('time', models.TimeField(default=django.utils.timezone.now, verbose_name='Measurement time')),
-                ('temperature', models.DecimalField(blank=True, decimal_places=2, max_digits=3, null=True,
+                ('temperature', models.DecimalField(blank=True, decimal_places=1, max_digits=3, null=True,
                                                     verbose_name='Temperature (Celsius)')),
                 ('health', models.CharField(choices=[('EXCELLENT', 'Excellent'), ('GOOD', 'Good'), ('BAD', 'Bad')],
                                             default='EXCELLENT', max_length=9, verbose_name='Health')),
