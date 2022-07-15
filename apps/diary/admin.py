@@ -1,4 +1,6 @@
+import pytz
 from django.contrib import admin
+from django.utils import timezone
 
 from .models import Measurement, RightHand, LeftHand
 
@@ -34,7 +36,8 @@ class MeasurementAdmin(admin.ModelAdmin):
 
     @admin.display(description='Time UTC+0')
     def time_(self, measurement: Measurement) -> str:
-        hours, minutes, _ = str(measurement.time).split(':')
+        time = measurement.time
+        hours, minutes, _ = str(time).split(':')
         return f'{hours}:{minutes}'
 
     @admin.display(description=f'T\N{DEGREE SIGN}C')
@@ -52,6 +55,19 @@ class MeasurementAdmin(admin.ModelAdmin):
     def left_hand_(self, measurement: Measurement) -> str:
         hand = measurement.left_hand
         return f'{hand.systolic}/{hand.diastolic}/{hand.pulse}'
+
+    def save_model(self, request, obj, form, change):
+        if not getattr(obj, 'user', None):
+            obj.user = request.user
+
+        now = timezone.now()
+
+        if now.hour == obj.time.hour:
+            current_timezone = pytz.timezone(request.user.timezone)
+            obj.day = now.astimezone(current_timezone).date()
+            obj.time = now.astimezone(current_timezone).time()
+
+        super().save_model(request, obj, form, change)
 
     inlines = (
         RightHandInlineAdmin,

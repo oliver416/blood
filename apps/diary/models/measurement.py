@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 
 
 class Measurement(models.Model):
@@ -8,6 +9,13 @@ class Measurement(models.Model):
         GOOD = 'GOOD', 'Good'
         BAD = 'BAD', 'Bad'
 
+    user = models.ForeignKey(
+        get_user_model(),
+        blank=True,
+        null=True,
+        on_delete=models.DO_NOTHING,
+        verbose_name='User',
+    )
     day = models.DateField(
         default=timezone.now,
         verbose_name='Measurement day',
