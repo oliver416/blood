@@ -8,6 +8,8 @@ class TimezoneMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        tzname = None # noqa
+
         with contextlib.suppress(AttributeError):
             tzname = request.user.timezone
 
