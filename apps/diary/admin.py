@@ -1,6 +1,4 @@
-import pytz
 from django.contrib import admin
-from django.utils import timezone
 
 from .models import Measurement, RightHand, LeftHand
 
@@ -34,7 +32,7 @@ class MeasurementAdmin(admin.ModelAdmin):
     def day_(self, measurement: Measurement) -> str:
         return measurement.day.strftime('%d-%m-%Y')
 
-    @admin.display(description='Time UTC+0')
+    @admin.display(description='Local time')
     def time_(self, measurement: Measurement) -> str:
         time = measurement.time
         hours, minutes, _ = str(time).split(':')
@@ -48,24 +46,19 @@ class MeasurementAdmin(admin.ModelAdmin):
     def is_bout_(self, measurement: Measurement) -> bool:
         return measurement.is_bout
 
+    @admin.display(description='Right hand')
     def right_hand_(self, measurement: Measurement) -> str:
-        hand = measurement.right_hand
+        hand = measurement.right_hand # noqa
         return f'{hand.systolic}/{hand.diastolic}/{hand.pulse}'
 
+    @admin.display(description='Left hand')
     def left_hand_(self, measurement: Measurement) -> str:
-        hand = measurement.left_hand
+        hand = measurement.left_hand # noqa
         return f'{hand.systolic}/{hand.diastolic}/{hand.pulse}'
 
     def save_model(self, request, obj, form, change):
         if not getattr(obj, 'user', None):
             obj.user = request.user
-
-        now = timezone.now()
-
-        if now.hour == obj.time.hour:
-            current_timezone = pytz.timezone(request.user.timezone)
-            obj.day = now.astimezone(current_timezone).date()
-            obj.time = now.astimezone(current_timezone).time()
 
         super().save_model(request, obj, form, change)
 
