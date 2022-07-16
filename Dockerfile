@@ -11,3 +11,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 EXPOSE 9001
+EXPOSE 8888

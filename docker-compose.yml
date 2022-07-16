@@ -2,12 +2,22 @@ version: "3.8"
 
 services:
 
-  app:
+  app_develop:
+    extends:
+      file: common-compose.yml
+      service: app
     container_name: blood_app_develop
-    build: .
+    command: ./manage.py runserver 0.0.0.0:8888
+    ports:
+      - 8888:8888
+
+  app_master:
+    extends:
+      file: common-compose.yml
+      service: app
+    container_name: blood_app_master
     command: ./manage.py runserver 0.0.0.0:9001
-    volumes:
-      - .:/app
     ports:
       - 9001:9001
-    restart: always
+    environment:
+      - DB_NAME=production
