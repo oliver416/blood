@@ -1,5 +1,7 @@
 from django.contrib import admin
+from django.http import HttpResponse
 
+from .services import PDFCreationService
 from .models import Measurement, RightHand, LeftHand
 
 
@@ -27,6 +29,9 @@ class MeasurementAdmin(admin.ModelAdmin):
     list_display_links = (
         'day_',
     )
+    actions = [
+        'export_to_pdf',
+    ]
 
     @admin.display(description='Day')
     def day_(self, measurement: Measurement) -> str:
@@ -61,6 +66,23 @@ class MeasurementAdmin(admin.ModelAdmin):
             obj.user = request.user
 
         super().save_model(request, obj, form, change)
+
+    @admin.action(description='Export to PDF')
+    def export_to_pdf(self, request, queryset) -> HttpResponse:
+        pdf = PDFCreationService.create_pdf(request, queryset)
+        headers = {
+            'Content-Disposition': f'attachment; '
+                                   f'filename="{PDFCreationService.PDF_NAME}"',
+            'Content-Length': len(pdf),
+        }
+        return HttpResponse(
+            pdf,
+            content_type='application/pdf',
+            headers=headers,
+        )
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     inlines = (
         RightHandInlineAdmin,
