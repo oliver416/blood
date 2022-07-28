@@ -1,3 +1,5 @@
+from typing import NamedTuple
+
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -54,3 +56,24 @@ class Measurement(models.Model):
 
     def __str__(self) -> str:
         return str(self.day)
+
+    @property
+    def day_string(self) -> str:
+        return self.day.strftime('%d-%m-%Y') # noqa
+
+    @property
+    def time_string(self) -> str:
+        time = self.time
+        hours, minutes, _ = str(time).split(':')
+        return f'{hours}:{minutes}'
+
+    class Hand(NamedTuple):
+        blood_pressure: str
+        pulse: str
+
+    @classmethod
+    def hand_data(cls, hand) -> Hand:
+        return cls.Hand(
+            blood_pressure=f'{hand.systolic}/{hand.diastolic}',
+            pulse=hand.pulse,
+        ) if hand else '-'
