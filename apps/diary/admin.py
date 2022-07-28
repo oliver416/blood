@@ -19,8 +19,8 @@ class MeasurementAdmin(admin.ModelAdmin):
         'id',
         'day_',
         'time_',
-        'left_hand_',
         'right_hand_',
+        'left_hand_',
         'temperature_',
         'health',
         'is_bout_',
@@ -35,13 +35,11 @@ class MeasurementAdmin(admin.ModelAdmin):
 
     @admin.display(description='Day')
     def day_(self, measurement: Measurement) -> str:
-        return measurement.day.strftime('%d-%m-%Y')
+        return measurement.day_string
 
     @admin.display(description='Local time')
     def time_(self, measurement: Measurement) -> str:
-        time = measurement.time
-        hours, minutes, _ = str(time).split(':')
-        return f'{hours}:{minutes}'
+        return measurement.time_string
 
     @admin.display(description=f'T\N{DEGREE SIGN}C')
     def temperature_(self, measurement: Measurement) -> str:
@@ -53,13 +51,13 @@ class MeasurementAdmin(admin.ModelAdmin):
 
     @admin.display(description='Right hand')
     def right_hand_(self, measurement: Measurement) -> str:
-        hand = measurement.right_hand # noqa
-        return f'{hand.systolic}/{hand.diastolic}/{hand.pulse}'
+        hand = measurement.hand_data(measurement.right_hand) # noqa
+        return f'{hand.blood_pressure}/{hand.pulse}'
 
     @admin.display(description='Left hand')
     def left_hand_(self, measurement: Measurement) -> str:
-        hand = measurement.left_hand # noqa
-        return f'{hand.systolic}/{hand.diastolic}/{hand.pulse}'
+        hand = measurement.hand_data(measurement.left_hand) # noqa
+        return f'{hand.blood_pressure}/{hand.pulse}'
 
     def save_model(self, request, obj, form, change):
         if not getattr(obj, 'user', None):
@@ -68,8 +66,8 @@ class MeasurementAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
     @admin.action(description='Export to PDF')
-    def export_to_pdf(self, request, queryset) -> HttpResponse:
-        pdf = PDFCreationService.create_pdf(request, queryset)
+    def export_to_pdf(self, _, queryset) -> HttpResponse:
+        pdf = PDFCreationService.create_pdf(queryset)
         headers = {
             'Content-Disposition': f'attachment; '
                                    f'filename="{PDFCreationService.PDF_NAME}"',

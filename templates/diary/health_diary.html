@@ -5,8 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 15px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-
+        {% for day, measurements in context.items %}
+            <table>
+                <tr>
+                    <th colspan="7">{{ day }}</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">Time</th>
+                    <th colspan="2">Right hand</th>
+                    <th colspan="2">Left hand</th>
+                    <th rowspan="2" width="50px">Temperature &#8451</th>
+                    <th rowspan="2">Description</th>
+                </tr>
+                <tr>
+                    <th>Blood pressure</th>
+                    <th>Pulse</th>
+                    <th>Blood pressure</th>
+                    <th>Pulse</th>
+                </tr>
+                    {% for measurement in measurements %}
+                        <tr>
+                            <td>{{ measurement.time }}</td>
+                            <td>{{ measurement.right_hand_blood_pressure }}</td>
+                            <td>{{ measurement.right_hand_pulse }}</td>
+                            <td>{{ measurement.left_hand_blood_pressure }}</td>
+                            <td>{{ measurement.left_hand_pulse }}</td>
+                            <td>{{ measurement.temperature }}</td>
+                            <td>{{ measurement.description }}</td>
+                        </tr>
+                    {% endfor %}
+            </table>
+            <br>
+        {% endfor %}
 </body>
 </html>
