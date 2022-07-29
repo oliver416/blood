@@ -5,6 +5,11 @@ name = "pypi"
 
 [packages]
 django = "==3.2"
+asgiref = "==3.5.2"
+django-admin-rangefilter = "==0.8.5"
+pdfkit = "==1.0.0"
+pytz = "==2022.1"
+sqlparse = "==0.4.2"
 
 [dev-packages]
 

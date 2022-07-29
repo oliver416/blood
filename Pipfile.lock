@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "af2d21d02d4d5e094738ab92fa5d186aa387f273f0f22928b58c3feb5232b35e"
+            "sha256": "d190b7bf5e65573d40168409fa3752e4c41a2e5c7f28240662d0868ef317f07e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -21,6 +21,7 @@
                 "sha256:1d2880b792ae8757289136f1db2b7b99100ce959b2aa57fd69dab783d05afac4",
                 "sha256:4a29362a6acebe09bf1d6640db38c1dc3d9217c68e6f9f6204d72667fc19a424"
             ],
+            "index": "pypi",
             "version": "==3.5.2"
         },
         "django": {
@@ -31,11 +32,29 @@
             "index": "pypi",
             "version": "==3.2"
         },
+        "django-admin-rangefilter": {
+            "hashes": [
+                "sha256:902af50f905e22121d8fcd94c3b1072322f18bad260637039e69380b05a5684b",
+                "sha256:9f1458be8a1aa40a83ac779fbd4fcd4241dce41010506d280da25fd9a0d9ebe9"
+            ],
+            "index": "pypi",
+            "version": "==0.8.5"
+        },
+        "pdfkit": {
+            "hashes": [
+                "sha256:992f821e1e18fc8a0e701ecae24b51a2d598296a180caee0a24c0af181da02a9",
+                "sha256:a7a4ca0d978e44fa8310c4909f087052430a6e8e0b1dd7ceef657f139789f96f",
+                "sha256:cc122e5aed594198ff7aaa566f2950d2163763576ab891c161bb1f6c630f5a8e"
+            ],
+            "index": "pypi",
+            "version": "==1.0.0"
+        },
         "pytz": {
             "hashes": [
                 "sha256:1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7",
                 "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"
             ],
+            "index": "pypi",
             "version": "==2022.1"
         },
         "sqlparse": {
@@ -43,6 +62,7 @@
                 "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae",
                 "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"
             ],
+            "index": "pypi",
             "version": "==0.4.2"
         }
     },
