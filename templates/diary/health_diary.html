@@ -17,6 +17,10 @@
             width: 100%;
             margin: auto;
         }
+
+        .w20 {
+            width: 20px;
+        }
     </style>
 </head>
 <body>
@@ -26,17 +30,17 @@
                     <th colspan="7">{{ day }}</th>
                 </tr>
                 <tr>
-                    <th rowspan="2">Time</th>
+                    <th rowspan="2" class="w20">Time</th>
                     <th colspan="2">Right hand</th>
                     <th colspan="2">Left hand</th>
-                    <th rowspan="2" width="50px">Temperature &#8451</th>
+                    <th rowspan="2" width="50px">T, &#8451</th>
                     <th rowspan="2">Description</th>
                 </tr>
                 <tr>
-                    <th>Blood pressure</th>
-                    <th>Pulse</th>
-                    <th>Blood pressure</th>
-                    <th>Pulse</th>
+                    <th class="w20">Blood pressure</th>
+                    <th class="w20">Pulse</th>
+                    <th class="w20">Blood pressure</th>
+                    <th class="w20">Pulse</th>
                 </tr>
                     {% for measurement in measurements %}
                         <tr>

@@ -30,6 +30,10 @@ ALLOWED_HOSTS = [
     f'192.168.0.{number}' for number in range(1, 255)
 ]
 
+ALLOWED_HOSTS += [
+    'localhost',
+]
+
 
 # Application definition
 
