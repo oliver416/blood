@@ -8,6 +8,7 @@ class UserAdmin(admin.ModelAdmin):
     fields = (
         'username',
         'timezone',
+        'language',
     )
     list_display = (
         'id',

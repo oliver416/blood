@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d190b7bf5e65573d40168409fa3752e4c41a2e5c7f28240662d0868ef317f07e"
+            "sha256": "0ea812d8431ab3fb4e4b2cb8389d0c7ae1ddf90c89fd95382e65e9b70bba9034"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -39,6 +39,14 @@
             ],
             "index": "pypi",
             "version": "==0.8.5"
+        },
+        "django-modeltranslation": {
+            "hashes": [
+                "sha256:756de996c44919108926b9d442e2f119e39a860f7295d6a1bdad7327a5d769c6",
+                "sha256:f4b6755248a7c6ff121b8e2a3e5ece47d3b47f4350f09b570cdf15d0af4b6939"
+            ],
+            "index": "pypi",
+            "version": "==0.18.4"
         },
         "pdfkit": {
             "hashes": [

@@ -1,6 +1,7 @@
 import pytz
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 
 class User(AbstractUser):
@@ -12,4 +13,10 @@ class User(AbstractUser):
         null=True,
         choices=TIMEZONES,
         verbose_name='Current timezone',
+    )
+    language = models.CharField(
+        max_length=5,
+        choices=settings.LANGUAGES,
+        default=settings.LANGUAGE_CODE,
+        verbose_name='Language',
     )
