@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.http import HttpResponse
+from rangefilter.filters import DateRangeFilter
 
 from .services import PDFCreationService
 from .models import Measurement, RightHand, LeftHand
@@ -32,6 +33,14 @@ class MeasurementAdmin(admin.ModelAdmin):
     actions = [
         'export_to_pdf',
     ]
+    list_filter = (
+        'is_bout',
+        'health',
+        (
+            'day',
+            DateRangeFilter,
+        ),
+    )
 
     @admin.display(description='Day')
     def day_(self, measurement: Measurement) -> str:
