@@ -10,6 +10,7 @@ django-admin-rangefilter = "==0.8.5"
 pdfkit = "==1.0.0"
 pytz = "==2022.1"
 sqlparse = "==0.4.2"
+django-modeltranslation = "==0.18.4"
 
 [dev-packages]
 

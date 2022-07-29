@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.http import HttpResponse
+from django.conf import settings
 from rangefilter.filters import DateRangeFilter
+from modeltranslation.admin import TranslationAdmin
 
+from common import activate_language
 from .services import PDFCreationService
 from .models import Measurement, RightHand, LeftHand
 
@@ -15,7 +18,7 @@ class LeftHandInlineAdmin(admin.StackedInline):
 
 
 @admin.register(Measurement)
-class MeasurementAdmin(admin.ModelAdmin):
+class MeasurementAdmin(TranslationAdmin):
     list_display = (
         'id',
         'day_',
@@ -25,7 +28,7 @@ class MeasurementAdmin(admin.ModelAdmin):
         'temperature_',
         'health',
         'is_bout_',
-        'description',
+        'description_',
     )
     list_display_links = (
         'day_',
@@ -40,6 +43,10 @@ class MeasurementAdmin(admin.ModelAdmin):
             'day',
             DateRangeFilter,
         ),
+    )
+    inlines = (
+        RightHandInlineAdmin,
+        LeftHandInlineAdmin,
     )
 
     @admin.display(description='Day')
@@ -68,6 +75,13 @@ class MeasurementAdmin(admin.ModelAdmin):
         hand = measurement.hand_data(measurement.left_hand) # noqa
         return f'{hand.blood_pressure}/{hand.pulse}'
 
+    @admin.display(description='Description')
+    def description_(self, measurement: Measurement) -> str:
+        language = getattr(measurement.user, 'language', settings.LANGUAGE_CODE)
+
+        with activate_language(language):
+            return measurement.description
+
     def save_model(self, request, obj, form, change):
         if not getattr(obj, 'user', None):
             obj.user = request.user
@@ -75,8 +89,10 @@ class MeasurementAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
     @admin.action(description='Export to PDF')
-    def export_to_pdf(self, _, queryset) -> HttpResponse:
-        pdf = PDFCreationService.create_pdf(queryset)
+    def export_to_pdf(self, request, queryset) -> HttpResponse:
+        with activate_language(request.user.language):
+            pdf = PDFCreationService.create_pdf(queryset)
+
         headers = {
             'Content-Disposition': f'attachment; '
                                    f'filename="{PDFCreationService.PDF_NAME}"',
@@ -90,8 +106,3 @@ class MeasurementAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-    inlines = (
-        RightHandInlineAdmin,
-        LeftHandInlineAdmin,
-    )
